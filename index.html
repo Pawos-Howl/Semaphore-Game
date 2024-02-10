@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--Top bar for somethin ig?-->
+    <link rel="stylesheet" href="topnav.css">
+    <title>Semaphore Game</title>
+</head>
+<body onload="main()">
+    <div class="topnav">
+        <a class="active" href="index.html">Home</a>
+        <!--Write these to go to the git repo-->
+        <a href="redirects.html?github">Source code</a>
+        <a href="redirects.html?issue">Report a bug</a>
+    </div>
+    <p style="font-size: 30px; text-align: center;">WELCOME! To learning semaphores!</p>
+    <br>
+    <!-- <canvas id="semaphoreStage" width="125" height="125"></canvas> -->
+    <!-- for some reason, text-align:center for images... WHY-->
+    <img src="letters/_none.png" id="immaaaggggeeeee" style="margin-left:auto;margin-right:auto;display:block;">
+    <br>
+    <p style="font-size: 15px;">The semaphore above (if it is playing something) should read "HELLO WORLD". You will learn how to read these semaphores and more with the help of this tool!</p>
+    <p style="font-size: 15px;">Below you will find the current methods of learning semaphores. The rules are simple. Choose a game, play the animation, guess what the semaphore reads, then click SUBMIT. The animation can be replayed and will not reset. Reset the word by refreshing the tab.</p>
+    <p style="font-size: 15px;">Pick a game and have fun! (as of now, there is only one game "._.)</p>
+    <p stle="font-size: 15px;"><a href="navwords.html">Game one</a> This game is the basics. Only a few navy terms will be present. This is good for getting a hang of semaphores.</p>
+
+    <script src="render.js"></script>
+    <script>
+        async function main(){
+        str = "HELLO WORLD";
+        delay = 1000;
+        repDelay = 2000;
+        play(str,delay);
+        // setInterval(function(){
+        //     play(str,delay);
+        // }, str.length * delay + repDelay);
+        while (!!!false){ // it still is true
+            await play(str,delay); // rhymes
+        }
+    }
+    </script>
+</body>
+</html>

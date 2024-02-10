@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>redirecting...</title>
+    </head>
+
+    <body onload="redirect()">
+        <div id="hideOnLoad" style="display:none;">
+            <p style="font-size:30px;text-align:center;">Oopsies! There was an issue!</p>
+            <br>
+            <p style="font-size:30px;">For some reason (either you opened this page with no "?" parameters or there was an error) you can NOT be redirected. Please go back or try to access something else.</p>
+        </div>
+
+        <script>
+            function getParams() {
+            var idx = document.URL.indexOf('?');
+            // var params = new Array();
+            var param = "";
+            if (idx != -1) {
+            // var pairs = document.URL.substring(idx+1, document.URL.length).split('&');
+            // for (var i=0; i<pairs.length; i++) {
+            // nameVal = pairs[i].split('=');
+            // params[nameVal[0]] = nameVal[1];
+            // }
+            param = document.URL.substring(idx+1,document.URL.length);
+            }
+            // return params;
+            return param;
+            }
+
+            function redirect(){
+                var param = getParams();
+                console.log(param);
+                if(param==""){document.getElementById("hideOnLoad").style.display="block";return;} //escapes if there are no params
+                fullPlace=placeRedirs(param);
+                window.location.href = fullPlace;
+            }
+
+            function placeRedirs(place){
+                // temporary
+                // return "https://www.github.com/Pawos-Howl";
+                if(place=="github"){return "https://www.github.com/Pawos-Howl/[repo]"}
+                if(place=="issue"){return "https://www.github.com/Pawos-Howl/[repo then issue pls help]"}
+                if(place=="home"){return "index.html"}
+                return place
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="topnav.css">
+    <link rel="stylesheet" href="modal.css">
+    <title>Semaphore Game 1</title>
+</head>
+<body onload="onLoad()">
+    <div class="topnav">
+        <a href="index.html">Home</a>
+        <a href="redirects.html?github">Source code</a>
+        <a href="redirects.html?issue">Report a bug</a>
+    </div>
+    <p style="font-size: 30px; text-align: center;">Game 1!</p>
+    <br>
+    <img src="letters/_none.png" id="immaaaggggeeeee" style="margin-left:auto;margin-right:auto;display:block;">
+    <div class="CtrlElements">
+        <p style="text-align:center;">
+            <button type="button" id="animationTrigger" onclick="runAnimation()">Play</button>
+            <input type="text" id="entered" name="entered"><br>
+            <button onclick="checkAnswer()">Check</button>
+        </p>
+    </div>
+    <br>
+    <p style="font-size: 15px;">Press the "Play" button above to start the animation. Write the answer in the box above and press "check" to validate. Refresh the tab to get a new word.</p>
+    <p style="font-size: 15px;">Below you will find the current methods of learning semaphores. The rules are simple. Choose a game, play the animation, guess what the semaphore reads, then click SUBMIT. The animation can be replayed and will not reset. Reset the word by refreshing the tab.</p>
+    <p style="font-size: 15px;">Welcome to the first game! In this game, you will identify a semaphore of one of the common navy terms (standard phatonic alphabet included). This is a warmup to learning the basics of semaphores.</p>
+
+    <!--These are the modals for being correct or wrong-->
+    <div class="AnswerModals" id="modals">
+        <div class="modal" id="correct">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p style="text-align: center; font-size: 35px; margin-bottom: 0;">Correct!</p>
+                <br>
+                <p>You guessed the semaphore correctly!</p>
+                <p>For your own note, the correct answer is "<span id="corrSpot"></span>".</p>
+            </div>
+        </div>
+        <div class="modal" id="wrong">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p style="text-align: center; font-size: 35px; margin-bottom: 0;">Incorrect...</p>
+                <br>
+                <p>Unfortunately, you did not guess the semaphore correctly.</p>
+                <p>For your own note, the correct answer is "<span id="corrSpot2"></span>".</p>
+                <p>You guessed "<span id="guessSpot"></span>". Feel free to retry! (with a refreshed word?)</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="render.js"></script>
+    <script src="correction.js"></script>
+    <script>
+        let str = "";
+        let resp = "";
+        delay = 1000;
+
+        function getRandomInt(max){
+            return Math.floor(Math.random() * max);
+        }
+        async function readFile(paf){
+            // simple and elegant file read. this took so long and kilobytes of other code
+            const resp = (await fetch(paf)).text();
+            return resp;
+
+        }
+        async function onLoad(){
+            // gets the file and prepares it for the next step
+            const rawText=await readFile("./words/g1.txt");
+            console.log(rawText);
+            var options = rawText.split("\n");
+            
+            // errors if there is no file, is fine and sets a rand str otherwise
+            if (options.length == 0) {str = "ERR"; console.log("ERROR: NO WORDS FOUND AT PAF!!"); return "ERROR: WORDS AT 0 LENGHT!"} // this is a ME error "._.
+            var randSel = getRandomInt(options.length);
+            str = options[randSel];
+        }
+        async function runAnimation(){
+            // locks the button, plays the animation, unlocks the button
+            document.getElementById("animationTrigger").disabled = true;
+            await play(str,delay);
+            document.getElementById("animationTrigger").disabled = false;
+        }
+        function checkAnswer(){
+            resp = document.getElementById("entered").value;
+            var status = isCorrect(str,resp);
+            console.log("Check run, status:"+status);
+            if(status){ // if it is correct
+                document.getElementById("corrSpot").innerHTML = str;
+                document.getElementById("correct").style.display = "block";
+            }
+            else{
+                document.getElementById("corrSpot2").innerHTML = str;
+                document.getElementById("guessSpot").innerHTML = resp;
+                document.getElementById("wrong").style.display = "block";
+            }
+        }
+
+        function hideModals(){
+            document.getElementById("correct").style.display = "none";
+            document.getElementById("wrong").style.display = "none";
+        }
+        // modal items (thanks w3schools)
+        // When the user clicks on <span> (x), close the modal
+        document.getElementsByClassName("close")[0].onclick = function() {
+            hideModals();
+        }
+        document.getElementsByClassName("close")[1].onclick = function() {
+            hideModals();
+        }
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == document.getElementById("modals")) {
+            hideModals();
+        }
+        }
+
+    </script>
+</body>
+</html>
