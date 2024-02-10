@@ -3,8 +3,8 @@ const image = document.getElementById("immaaaggggeeeee")
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function getImageFile(letter){
-    if(letter == " "){return "letters/_space.png"}
-    if(letter == "none"){return "letters/_none.png"}
+    if(letter == " "){return "letters/space.png"}
+    if(letter == "none"){return "letters/none.png"}
     return "letters/"+letter.toUpperCase()+".png"
 }
 
