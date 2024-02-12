@@ -17,7 +17,7 @@
     <div class="CtrlElements">
         <p style="text-align:center;">
             <button type="button" id="animationTrigger" onclick="runAnimation()">Play</button>
-            <input type="text" id="entered" name="entered"><br>
+            <input type="text" id="entered" name="entered">
             <button onclick="checkAnswer()">Check</button>
         </p>
     </div>
@@ -68,7 +68,7 @@
         async function onLoad(){
             // gets the file and prepares it for the next step
             const rawText=await readFile("./words/g1.txt");
-            console.log(rawText);
+            // console.log(rawText);
             var options = rawText.split("\n");
             
             // errors if there is no file, is fine and sets a rand str otherwise
