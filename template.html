@@ -8,7 +8,6 @@
 <body onload="onLoad()">
     <div class="topnav">
         <a href="index.html">Home</a>
-        <!--Write these to go to the git repo-->
         <a href="redirects.html?github">Source code</a>
         <a href="redirects.html?issue">Report a bug</a>
     </div>
@@ -24,7 +23,6 @@
     </div>
     <br>
     <p style="font-size: 15px;">Press the "Play" button above to start the animation. Write the answer in the box above and press "check" to validate. Refresh the tab to get a new word.</p>
-    <p style="font-size: 15px;">Below you will find the current methods of learning semaphores. The rules are simple. Choose a game, play the animation, guess what the semaphore reads, then click SUBMIT. The animation can be replayed and will not reset. Reset the word by refreshing the tab.</p>
     <p style="font-size: 15px;">This is the template, and will be copied (or something else with an overwrite) for the sake of simplicity on my part.</p>
 
     <!--These are the modals for being correct or wrong-->
@@ -56,7 +54,15 @@
         let str = ""; // this is the var that has the value to be rendered by the semaphore
         let resp = ""; // the user response
         delay = 1000; // in the future, make this read from a cookie
+        var box = document.getElementById("entered"); // boxxo
 
+        box.addEventListener("keypress", function (e) {
+            console.log("key caught");
+            console.log(e.code);
+            if (e.code === "Enter" || e.code === "NumpadEnter") {  //checks whether the pressed key is "Enter" or the numpad "Enter" (NumpadEnter)
+                checkAnswer();
+            }
+        });
         function onLoad(){
             // gets and sets the selected string
             // this will be different per every project

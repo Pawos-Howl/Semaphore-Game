@@ -23,7 +23,6 @@
     </div>
     <br>
     <p style="font-size: 15px;">Press the "Play" button above to start the animation. Write the answer in the box above and press "check" to validate. Refresh the tab to get a new word.</p>
-    <p style="font-size: 15px;">Below you will find the current methods of learning semaphores. The rules are simple. Choose a game, play the animation, guess what the semaphore reads, then click SUBMIT. The animation can be replayed and will not reset. Reset the word by refreshing the tab.</p>
     <p style="font-size: 15px;">Welcome to the first game! In this game, you will identify a semaphore of one of the common navy terms (standard phatonic alphabet included). This is a warmup to learning the basics of semaphores.</p>
 
     <!--These are the modals for being correct or wrong-->
@@ -55,6 +54,7 @@
         let str = "";
         let resp = "";
         delay = 1000;
+        var box = document.getElementById("entered"); // boxxo
 
         function getRandomInt(max){
             return Math.floor(Math.random() * max);
@@ -65,14 +65,15 @@
             return resp;
 
         }
+        box.addEventListener("keydown", function (e) {
+            if (e.code === "Enter" || e.code === "NumpadEnter") {  //checks whether the pressed key is "Enter" or the numpad "Enter" (NumpadEnter)
+                checkAnswer();
+            }
+        });
         async function onLoad(){
             // gets the file and prepares it for the next step
             const rawText=await readFile("./words/g1.txt");
-            // console.log(rawText);
             var options = rawText.split("\n");
-            
-            // errors if there is no file, is fine and sets a rand str otherwise
-            if (options.length == 0) {str = "ERR"; console.log("ERROR: NO WORDS FOUND AT PAF!!"); return "ERROR: WORDS AT 0 LENGHT!"} // this is a ME error "._.
             var randSel = getRandomInt(options.length);
             str = options[randSel];
         }
@@ -101,15 +102,12 @@
             document.getElementById("correct").style.display = "none";
             document.getElementById("wrong").style.display = "none";
         }
-        // modal items (thanks w3schools)
-        // When the user clicks on <span> (x), close the modal
         document.getElementsByClassName("close")[0].onclick = function() {
             hideModals();
         }
         document.getElementsByClassName("close")[1].onclick = function() {
             hideModals();
         }
-        // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
         if (event.target == document.getElementById("modals")) {
             hideModals();
