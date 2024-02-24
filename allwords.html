@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="topnav.css">
+    <link rel="stylesheet" href="modal.css">
+    <title>Semaphore Game 2</title>
+</head>
+<body onload="onLoad()">
+    <div class="topnav">
+        <a href="index.html">Home</a>
+        <a href="redirects.html?github">Source code</a>
+        <a href="redirects.html?issue">Report a bug</a>
+    </div>
+    <p style="font-size: 30px; text-align: center;">Game 2!</p>
+    <br>
+    <img src="letters/none.png" id="immaaaggggeeeee" style="margin-left:auto;margin-right:auto;display:block;">
+    <div class="CtrlElements">
+        <p style="text-align:center;">
+            <button type="button" id="animationTrigger" onclick="runAnimation()">Play</button>
+            <input type="text" id="entered" name="entered">
+            <button onclick="checkAnswer()">Check</button>
+        </p>
+    </div>
+    <br>
+    <p style="font-size: 15px;">Press the "Play" button above to start the animation. Write the answer in the box above and press "check" to validate. Refresh the tab to get a new word.</p>
+    <p style="font-size: 15px;">Welcome to game number 2! This has just about every word in the English dictionary, and I could not do this without the help of <a href="https://github.com/dwyl/english-words/tree/master">this repository (words_alpha.txt).</a> This game is far harder than game 1, be ready, you got this!</p>
+
+    <!--These are the modals for being correct or wrong-->
+    <div class="AnswerModals" id="modals">
+        <div class="modal" id="correct">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p style="text-align: center; font-size: 35px; margin-bottom: 0;">Correct!</p>
+                <br>
+                <p>You guessed the semaphore correctly!</p>
+                <p>For your own note, the correct answer is "<span id="corrSpot"></span>".</p>
+            </div>
+        </div>
+        <div class="modal" id="wrong">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p style="text-align: center; font-size: 35px; margin-bottom: 0;">Incorrect...</p>
+                <br>
+                <p>Unfortunately, you did not guess the semaphore correctly.</p>
+                <p>For your own note, the correct answer is "<span id="corrSpot2"></span>".</p>
+                <p>You guessed "<span id="guessSpot"></span>". Feel free to retry! (with a refreshed word?)</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="render.js"></script>
+    <script src="correction.js"></script>
+    <script>
+        let str = "";
+        let resp = "";
+        delay = 1000;
+        var box = document.getElementById("entered"); // boxxo
+
+        function getRandomInt(max){
+            return Math.floor(Math.random() * max);
+        }
+        async function readFile(paf){
+            // simple and elegant file read. this took so long and kilobytes of other code
+            return (await fetch(paf)).text();
+
+        }
+        box.addEventListener("keydown", function (e) {
+            if (e.code === "Enter" || e.code === "NumpadEnter") {  //checks whether the pressed key is "Enter" or the numpad "Enter" (NumpadEnter)
+                checkAnswer();
+            }
+        });
+        async function onLoad(){
+            // gets the file and prepares it for the next step
+            var rawText=await readFile("./words/g2.txt");
+            var options = rawText.split("\n");
+            var randSel = getRandomInt(options.length);
+            str = options[randSel].replace(/\s/g, ''); // replace to remove the whitespace (which my code can't do)
+        }
+        async function runAnimation(){
+            // locks the button, plays the animation, unlocks the button
+            document.getElementById("animationTrigger").disabled = true;
+            await play(str,delay);
+            document.getElementById("animationTrigger").disabled = false;
+        }
+        function checkAnswer(){
+            resp = document.getElementById("entered").value;
+            var status = isCorrect(str,resp);
+            console.log("Check run, status:"+status);
+            if(status){ // if it is correct
+                document.getElementById("corrSpot").innerHTML = str;
+                document.getElementById("correct").style.display = "block";
+            }
+            else{
+                document.getElementById("corrSpot2").innerHTML = str;
+                document.getElementById("guessSpot").innerHTML = resp;
+                document.getElementById("wrong").style.display = "block";
+            }
+        }
+
+        function hideModals(){
+            document.getElementById("correct").style.display = "none";
+            document.getElementById("wrong").style.display = "none";
+        }
+        document.getElementsByClassName("close")[0].onclick = function() {
+            hideModals();
+        }
+        document.getElementsByClassName("close")[1].onclick = function() {
+            hideModals();
+        }
+        window.onclick = function(event) {
+        if (event.target == document.getElementById("modals")) {
+            hideModals();
+        }
+        }
+
+    </script>
+</body>
+</html>
